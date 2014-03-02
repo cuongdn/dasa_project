@@ -46,8 +46,8 @@ public class App {
 
         DropboxRequest request = new DropboxRequest(token);
         System.out.println("");
-        System.out.println("Listing directory DuAn...");
-        String json = request.list("duan");
+        System.out.println("Listing root directory ...");
+        String json = request.list("");
 
         // deserialize json string to list DropBoxItem
         ArrayList<DropboxItem> list = Json.ToDropboxList(json);
@@ -58,7 +58,7 @@ public class App {
         System.out.println("");
         System.out.println("Uploading... file a.txt");
         File file = new File("src/main/resources/a.txt");
-        String rs = request.upload("duan/a.txt", file);
+        String rs = request.upload("a.txt", file);
         System.out.println(rs);
 
         System.out.println("");
@@ -66,7 +66,7 @@ public class App {
         File target = new File("src/main/resources/a.txt");
         OutputStream out = new FileOutputStream(target);
         try {
-            request.download("duan/a.txt", out);
+            request.download("a.txt", out);
         } catch (Exception e) {
             out.close();
         }
