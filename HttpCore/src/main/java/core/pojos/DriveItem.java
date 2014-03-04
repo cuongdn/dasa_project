@@ -44,7 +44,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
   "downloadUrl",
   "exportLinks",
   "indexableText",
-  "userPermission",
+
 
   "fileExtension",
   "md5Checksum",
@@ -167,8 +167,8 @@ private String mimeType;
 private List<DriveParent> DriveParents = new ArrayList<DriveParent>();
 //@JsonProperty("exportLinks")
 //private ExportLinks exportLinks;
-////@JsonProperty("userPermission")
-//private UserPermission userPermission;
+@JsonProperty("userPermission")
+private DriveUserPermission userPermission;
 //@JsonProperty("quotaBytesUsed")
 //private String quotaBytesUsed;
 //@JsonProperty("ownerNames")
@@ -398,17 +398,17 @@ this.DriveParents = DriveParents;
 //public void setExportLinks(ExportLinks exportLinks) {
 //this.exportLinks = exportLinks;
 //}
-//
-//@JsonProperty("userPermission")
-//public UserPermission getUserPermission() {
-//return userPermission;
-//}
-//
-//@JsonProperty("userPermission")
-//public void setUserPermission(UserPermission userPermission) {
-//this.userPermission = userPermission;
-//}
-//
+
+@JsonProperty("userPermission")
+public DriveUserPermission getUserPermission() {
+return userPermission;
+}
+
+@JsonProperty("userPermission")
+public void setUserPermission(DriveUserPermission userPermission) {
+this.userPermission = userPermission;
+}
+
 //@JsonProperty("quotaBytesUsed")
 //public String getQuotaBytesUsed() {
 //return quotaBytesUsed;

@@ -174,7 +174,7 @@ public class DriveApiExample {
     public static List<DriveItem> Rootlist(List<DriveItem> items){
         List<DriveItem> temp = new ArrayList<>();
         for(int i = 0; i < items.size() ; i++){
-            if( (items.get(i).getDriveParents().size() != 1) || (items.get(i).getMimeType().equals("application/vnd.google-apps.folder") && items.get(i).getDriveParents().get(0).getIsRoot()) ){
+            if( (items.get(i).getDriveParents().size() != 1) || (items.get(i).getMimeType().equals("application/vnd.google-apps.folder") && items.get(i).getDriveParents().get(0).getIsRoot()) && items.get(i).getUserPermission().getRole().equals("owner")  ){
             temp.add(items.get(i));
             } 
         }
@@ -188,7 +188,7 @@ public class DriveApiExample {
         List<DriveItem> temp = new ArrayList<>();
         if (item.getMimeType().equals("application/vnd.google-apps.folder")) {
             for (int i = 0; i < items.size(); i++) {
-                if (items.get(i).getDriveParents().size() != 0) {
+                if ((items.get(i).getDriveParents().size() != 0) && (items.get(i).getUserPermission().getRole().equals("owner")) ) {
                     if (items.get(i).getDriveParents().get(0).getId().equals(item.getId())) {
                         temp.add(items.get(i));
                     }
