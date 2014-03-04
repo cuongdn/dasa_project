@@ -32,7 +32,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
   "thumbnailLink",
   "thumbnail",
 
-  "mimeType",
+
   "description",
   "labels",
   "createdDate",
@@ -148,8 +148,11 @@ private String selfLink;
 //private String thumbnailLink;
 @JsonProperty("title")
 private String title;
-//@JsonProperty("mimeType")
-//private String mimeType;
+
+@JsonProperty("mimeType")
+private String mimeType;
+
+
 //@JsonProperty("labels")
 //private Labels labels;
 //@JsonProperty("createdDate")
@@ -315,14 +318,16 @@ this.title = title;
 }
 
 
-//public String getMimeType() {
-//return mimeType;
-//}
-//
-//
-//public void setMimeType(String mimeType) {
-//this.mimeType = mimeType;
-//}
+
+public String getMimeType() {
+return mimeType;
+}
+
+
+public void setMimeType(String mimeType) {
+this.mimeType = mimeType;
+}
+
 
 //@JsonProperty("labels")
 //public Labels getLabels() {

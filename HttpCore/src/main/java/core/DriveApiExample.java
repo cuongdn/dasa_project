@@ -6,10 +6,18 @@ import core.net.DriveRequest;
 import core.net.Json;
 import core.pojos.DriveDir;
 import core.pojos.DriveItem;
+
+import core.pojos.DriveParent;
+
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import java.util.ArrayList;
+
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -50,22 +58,10 @@ public class DriveApiExample {
                 .scope("https://www.googleapis.com/auth/drive")
                 .build();
         
-        
-        
-        
-        
-        
         Token accessToken = getToken(service);
-
-//        DriveRequest request = new DriveRequest(accessToken);
-//        String content = request.list("duan");
         
         getFiles(service, accessToken);
-        
-        
 
-        
-        
     }
     
     private static Token getToken(OAuthService service) {
@@ -109,52 +105,101 @@ public class DriveApiExample {
 
         Json json2list = new Json();
         List<DriveItem> ToDriveList = Json.ToDriveList(response.getBody());
-        System.out.println("I am Here!!!!"+ ToDriveList.size() );
-        for(int i = 0; i < ToDriveList.size(); i++){
-        System.out.println("I am Here!!!!"+ ToDriveList.get(i).getOriginalFilename() +" & "+ ToDriveList.get(i).getTitle() );
-        }
+        System.out.println( ToDriveList.size() +"Files!!!!");
+//        for(int i = 0; i < ToDriveList.size(); i++){
+//            List<DriveItem> Parent2ListItem = Parent2ListItem(ToDriveList,ToDriveList.get(i).getDriveParents());
+//        System.out.print(" file ID: "+ ToDriveList.get(i).getId()+", Name file: "+ ToDriveList.get(i).getTitle() +", number parent :"+ ToDriveList.get(i).getDriveParents().size() +", mime type :"+ ToDriveList.get(i).getMimeType() +", list parents :" );
+//        showParentItems(Parent2ListItem);
+//        System.out.println();
+//        }
+        
+        System.out.println("RootList :");
+                
+        List<DriveItem> rl = Rootlist(ToDriveList);
+        showRootListItems(rl);
+        
+        System.out.println("\nFolderList :");
+                
+        List<DriveItem> fl = Childlist(ToDriveList, ToDriveList.get(4));
+        showRootListItems(fl);
+        
+
+
+//        System.out.println("I am Here!!!!"+ ToDriveList.size() );
+//        for(int i = 0; i < ToDriveList.size(); i++){
+//        System.out.println("I am Here!!!!"+ ToDriveList.get(i).getOriginalFilename() +" & "+ ToDriveList.get(i).getTitle() );
+//        }
+
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
         
         
-//        HttpClient client = new HttpClient() {};
-//        HttpMethod method = new GetMethod("https://www.googleapis.com/drive/v2/files?maxResults=50&key="+accessToken.getToken());
-//
-//        method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
-//                new DefaultHttpMethodRetryHandler(3, false));
-//
-//        try {
-//            int statusCode = client.executeMethod(method);
-//
-//            if (statusCode != HttpStatus.SC_OK) {
-//                System.err.println("Method failed: " + method.getStatusLine());
-//            }
-//            byte[] responeBody = method.getResponseBody();
-//            FileOutputStream fos = new FileOutputStream("D:\\test.json");
-//            fos.write(responeBody);
-//            fos.flush();
-//            fos.close();
-//            String jsonstr = new String(responeBody);
-//            System.out.println(jsonstr);
-////            Json json2list = new Json();
-////            List<DriveItem> ToDriveList = Json.ToDriveList(new String(responeBody));
-//            
-////            ObjectMapper mapper = new ObjectMapper();
-////            DriveDir folder = mapper.readValue(new String(responeBody), DriveDir.class);
-//            
-//            
-////            System.out.println("I am here!!!!!!!"+ folder.items.get(0).getOriginalFilename() );
-//
-//        } catch (HttpException e) {
-//            System.err.println("Fatal protocol violation: " + e.getMessage());
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            System.err.println("Fatal transport error: " + e.getMessage());
-//            e.printStackTrace();
-//        } finally {
-//            method.releaseConnection();
-//        }
+
       }
+
+    public static DriveItem SearchItembyID(List<DriveItem> items, String ID) {
+        DriveItem item = new DriveItem();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId().equals(ID)) {
+                item = items.get(i);
+            }
+        }
+        return item;
+    }
+    
+    public static List<DriveItem> Parent2ListItem(List<DriveItem> items, List<DriveParent> parents){
+        List<DriveItem> parentList = new ArrayList<>();
+        for(int i = 0; i < parents.size(); i++){
+           parentList.add( SearchItembyID(items, parents.get(i).getId()) );
+        }
+        return parentList;
+    }
+    
+    public static void showParentItems(List<DriveItem> items){
+            for (int i = 0; i < items.size(); i++) {
+                System.out.print(items.get(i).getTitle()+ ", ");
+            }
+    }
+    
+    public static void showRootListItems(List<DriveItem> items){
+            for (int i = 0; i < items.size(); i++) {
+                System.out.println(items.get(i).getTitle());
+            }
+    }
+    
+    //all must be list item
+    //1/ Create Root Folder
+    // create the root folder that have the file inside have no parent or parent = null
+    //the children (folders) have foldertype(mime) and the parent is root  
+    public static List<DriveItem> Rootlist(List<DriveItem> items){
+        List<DriveItem> temp = new ArrayList<>();
+        for(int i = 0; i < items.size() ; i++){
+            if( (items.get(i).getDriveParents().size() != 1) || (items.get(i).getMimeType().equals("application/vnd.google-apps.folder") && items.get(i).getDriveParents().get(0).getIsRoot()) ){
+            temp.add(items.get(i));
+            } 
+        }
+        return temp;
+    }
+    
+    //all must be list item
+    //2/ Create Folder
+    // when choose folder serch list that have that ID of this folder
+    public static List<DriveItem> Childlist(List<DriveItem> items, DriveItem item) {
+        List<DriveItem> temp = new ArrayList<>();
+        if (item.getMimeType().equals("application/vnd.google-apps.folder")) {
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).getDriveParents().size() != 0) {
+                    if (items.get(i).getDriveParents().get(0).getId().equals(item.getId())) {
+                        temp.add(items.get(i));
+                    }
+                }
+            }
+        }
+        return temp;
+    }
+
+
+
     
 
 }
