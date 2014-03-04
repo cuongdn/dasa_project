@@ -39,9 +39,12 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
  *
  */
 public class DriveApiExample {
-
+    
+//Token[ya29.1.AADtN_W77eq-NEdZMRufxcCMpDP-4f0HGQs53ZvuCF0fOLc8z3qJD661bNVaTvtTVimJzoEP , ]
     private static final String NETWORK_NAME = "Drive";
-    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/drive/v2/files";
+//    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/drive/v2/files";
+    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/drive/v2/files?maxResults=50&q='me'+in+owners+and+'root'+in+parents&key=ya29.1.AADtN_W77eq-NEdZMRufxcCMpDP-4f0HGQs53ZvuCF0fOLc8z3qJD661bNVaTvtTVimJzoEP";
+//    https://www.googleapis.com/drive/v2/files?maxResults=50&q='me'+in+owners+and+'root'+in+parents&key={YOUR_API_KEY}
     private static final Token EMPTY_TOKEN = null;
 
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -113,20 +116,20 @@ public class DriveApiExample {
         System.out.println();
         }
         
-        System.out.println("\n test thu muc goc! :");                
-        List<DriveItem> rl = DriveRequest.Rootlist(ToDriveList);
-        showRootListItems(rl);
+//        System.out.println("\n test thu muc goc! :");                
+//        List<DriveItem> rl = Rootlist(ToDriveList);
+//        showRootListItems(rl);
         
         System.out.println("\n Test thu muc go :");
-        List<DriveItem> fl = DriveRequest.Childlist(ToDriveList, ToDriveList.get(2));
+        List<DriveItem> fl = Childlist(ToDriveList, ToDriveList.get(2));
         showRootListItems(fl);
         
         System.out.println("\n Test thu muc test :");
-        List<DriveItem> f2 = DriveRequest.Childlist(ToDriveList, ToDriveList.get(1));
+        List<DriveItem> f2 = Childlist(ToDriveList, ToDriveList.get(1));
         showRootListItems(f2);
         
         System.out.println("\n Test thu muc test2 :");
-        List<DriveItem> f3 = DriveRequest.Childlist(ToDriveList, ToDriveList.get(0));
+        List<DriveItem> f3 = Childlist(ToDriveList, ToDriveList.get(0));
         showRootListItems(f3);
 
         System.out.println();
@@ -185,19 +188,19 @@ public class DriveApiExample {
     //all must be list item
     //2/ Create Folder
     // when choose folder serch list that have that ID of this folder
-//    public static List<DriveItem> Childlist(List<DriveItem> items, DriveItem item) {
-//        List<DriveItem> temp = new ArrayList<>();
-//        if (item.getMimeType().equals("application/vnd.google-apps.folder")) {
-//            for (int i = 0; i < items.size(); i++) {
-//                if ((items.get(i).getDriveParents().size() != 0) && (items.get(i).getUserPermission().getRole().equals("owner")) ) {
-//                    if (items.get(i).getDriveParents().get(0).getId().equals(item.getId())) {
-//                        temp.add(items.get(i));
-//                    }
-//                }
-//            }
-//        }
-//        return temp;
-//    }
+    public static List<DriveItem> Childlist(List<DriveItem> items, DriveItem item) {
+        List<DriveItem> temp = new ArrayList<>();
+        if (item.getMimeType().equals("application/vnd.google-apps.folder")) {
+            for (int i = 0; i < items.size(); i++) {
+                if ((items.get(i).getDriveParents().size() != 0) && (items.get(i).getUserPermission().getRole().equals("owner")) ) {
+                    if (items.get(i).getDriveParents().get(0).getId().equals(item.getId())) {
+                        temp.add(items.get(i));
+                    }
+                }
+            }
+        }
+        return temp;
+    }
 
 
 
