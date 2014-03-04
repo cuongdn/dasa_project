@@ -6,11 +6,14 @@
 
 package core.net;
 
+import core.pojos.DriveItem;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 import org.scribe.model.Token;
@@ -19,7 +22,8 @@ import org.scribe.model.Token;
  * @author Royal
  */
 public class DriveRequest {
-    private final String ROOT_META = "https://www.googleapis.com/drive/v2/files";
+      private final String ROOT_META = "https://drive.google.com";
+//    private final String ROOT_META = "https://www.googleapis.com/drive/v2/files";
 //    private final String ROOT_GET = "https://api-content.dropbox.com/1/files/dropbox";
 //    private final String ROOT_PUT = "https://api-content.dropbox.com/1/files_put/dropbox/";
 
@@ -40,16 +44,42 @@ public class DriveRequest {
      * @throws URISyntaxException Invalid URI
      * @throws IOException Bad request
      */
-    public String list(String path) throws URISyntaxException, IOException {
-        URI uri = Param.create()
-                .setUrl(combine(ROOT_META, path))
-                .setParam(MAX_RESULTS, RESULTS_LIMIT_VALUE)
-                .setToken(token)
-                .buildURI();
-        return Request.Get(uri)
-                .execute()
-                .returnContent().asString();
+//    public String list(String path) throws URISyntaxException, IOException {
+//        URI uri = Param.create()
+//                .setUrl(combine(ROOT_META, path))
+//                .setParam(MAX_RESULTS, RESULTS_LIMIT_VALUE)
+//                .setToken(token)
+//                .buildURI();
+//        return Request.Get(uri)
+//                .execute()
+//                .returnContent().asString();
+//    }
+    
+     public static List<DriveItem> Rootlist(List<DriveItem> items){
+        List<DriveItem> temp = new ArrayList<>();
+        for(int i = 0; i < items.size() ; i++){
+            if( (items.get(i).getDriveParents().size() != 1) || (items.get(i).getMimeType().equals("application/vnd.google-apps.folder") && items.get(i).getDriveParents().get(0).getIsRoot()) && items.get(i).getUserPermission().getRole().equals("owner")  ){
+            temp.add(items.get(i));
+            } 
+        }
+        return temp;
+    }   
+    
+        public static List<DriveItem> Childlist(List<DriveItem> items, DriveItem item) {
+        List<DriveItem> temp = new ArrayList<>();
+        if (item.getMimeType().equals("application/vnd.google-apps.folder")) {
+            for (int i = 0; i < items.size(); i++) {
+                if ((items.get(i).getDriveParents().size() != 0) && (items.get(i).getUserPermission().getRole().equals("owner")) ) {
+                    if (items.get(i).getDriveParents().get(0).getId().equals(item.getId())) {
+                        temp.add(items.get(i));
+                    }
+                }
+            }
+        }
+        return temp;
     }
+    
+    
 //    /**
 //     * Downloads a file
 //     * @param path The relative path to the file you want to retrieve

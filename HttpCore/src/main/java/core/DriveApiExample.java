@@ -105,30 +105,29 @@ public class DriveApiExample {
 
         Json json2list = new Json();
         List<DriveItem> ToDriveList = Json.ToDriveList(response.getBody());
-        System.out.println( ToDriveList.size() +"Files!!!!");
-//        for(int i = 0; i < ToDriveList.size(); i++){
-//            List<DriveItem> Parent2ListItem = Parent2ListItem(ToDriveList,ToDriveList.get(i).getDriveParents());
-//        System.out.print(" file ID: "+ ToDriveList.get(i).getId()+", Name file: "+ ToDriveList.get(i).getTitle() +", number parent :"+ ToDriveList.get(i).getDriveParents().size() +", mime type :"+ ToDriveList.get(i).getMimeType() +", list parents :" );
-//        showParentItems(Parent2ListItem);
-//        System.out.println();
-//        }
+        System.out.println("\n TEST tat ca file cung voi ID!!!!");
+        for(int i = 0; i < ToDriveList.size(); i++){
+            List<DriveItem> Parent2ListItem = Parent2ListItem(ToDriveList,ToDriveList.get(i).getDriveParents());
+        System.out.print(" file ID: "+ ToDriveList.get(i).getId()+", Name file: "+ ToDriveList.get(i).getTitle() +", number parent :"+ ToDriveList.get(i).getDriveParents().size() +", mime type :"+ ToDriveList.get(i).getMimeType() +", list parents :" );
+        showParentItems(Parent2ListItem);
+        System.out.println();
+        }
         
-        System.out.println("RootList :");
-                
-        List<DriveItem> rl = Rootlist(ToDriveList);
+        System.out.println("\n test thu muc goc! :");                
+        List<DriveItem> rl = DriveRequest.Rootlist(ToDriveList);
         showRootListItems(rl);
         
-        System.out.println("\nFolderList :");
-                
-        List<DriveItem> fl = Childlist(ToDriveList, ToDriveList.get(4));
+        System.out.println("\n Test thu muc go :");
+        List<DriveItem> fl = DriveRequest.Childlist(ToDriveList, ToDriveList.get(2));
         showRootListItems(fl);
         
-
-
-//        System.out.println("I am Here!!!!"+ ToDriveList.size() );
-//        for(int i = 0; i < ToDriveList.size(); i++){
-//        System.out.println("I am Here!!!!"+ ToDriveList.get(i).getOriginalFilename() +" & "+ ToDriveList.get(i).getTitle() );
-//        }
+        System.out.println("\n Test thu muc test :");
+        List<DriveItem> f2 = DriveRequest.Childlist(ToDriveList, ToDriveList.get(1));
+        showRootListItems(f2);
+        
+        System.out.println("\n Test thu muc test2 :");
+        List<DriveItem> f3 = DriveRequest.Childlist(ToDriveList, ToDriveList.get(0));
+        showRootListItems(f3);
 
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
@@ -167,36 +166,38 @@ public class DriveApiExample {
             }
     }
     
+    
+    
     //all must be list item
     //1/ Create Root Folder
     // create the root folder that have the file inside have no parent or parent = null
     //the children (folders) have foldertype(mime) and the parent is root  
-    public static List<DriveItem> Rootlist(List<DriveItem> items){
-        List<DriveItem> temp = new ArrayList<>();
-        for(int i = 0; i < items.size() ; i++){
-            if( (items.get(i).getDriveParents().size() != 1) || (items.get(i).getMimeType().equals("application/vnd.google-apps.folder") && items.get(i).getDriveParents().get(0).getIsRoot()) && items.get(i).getUserPermission().getRole().equals("owner")  ){
-            temp.add(items.get(i));
-            } 
-        }
-        return temp;
-    }
+//    public static List<DriveItem> Rootlist(List<DriveItem> items){
+//        List<DriveItem> temp = new ArrayList<>();
+//        for(int i = 0; i < items.size() ; i++){
+//            if( (items.get(i).getDriveParents().size() != 1) || (items.get(i).getMimeType().equals("application/vnd.google-apps.folder") && items.get(i).getDriveParents().get(0).getIsRoot()) && items.get(i).getUserPermission().getRole().equals("owner")  ){
+//            temp.add(items.get(i));
+//            } 
+//        }
+//        return temp;
+//    }
     
     //all must be list item
     //2/ Create Folder
     // when choose folder serch list that have that ID of this folder
-    public static List<DriveItem> Childlist(List<DriveItem> items, DriveItem item) {
-        List<DriveItem> temp = new ArrayList<>();
-        if (item.getMimeType().equals("application/vnd.google-apps.folder")) {
-            for (int i = 0; i < items.size(); i++) {
-                if ((items.get(i).getDriveParents().size() != 0) && (items.get(i).getUserPermission().getRole().equals("owner")) ) {
-                    if (items.get(i).getDriveParents().get(0).getId().equals(item.getId())) {
-                        temp.add(items.get(i));
-                    }
-                }
-            }
-        }
-        return temp;
-    }
+//    public static List<DriveItem> Childlist(List<DriveItem> items, DriveItem item) {
+//        List<DriveItem> temp = new ArrayList<>();
+//        if (item.getMimeType().equals("application/vnd.google-apps.folder")) {
+//            for (int i = 0; i < items.size(); i++) {
+//                if ((items.get(i).getDriveParents().size() != 0) && (items.get(i).getUserPermission().getRole().equals("owner")) ) {
+//                    if (items.get(i).getDriveParents().get(0).getId().equals(item.getId())) {
+//                        temp.add(items.get(i));
+//                    }
+//                }
+//            }
+//        }
+//        return temp;
+//    }
 
 
 
