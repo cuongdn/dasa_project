@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package core.pojos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.annotation.Generated;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 /**
  *
@@ -25,65 +19,66 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 //"isRoot"
 //})
 public class DriveParent {
-@JsonProperty("kind")
-private String kind;
-@JsonProperty("id")
-private String id;
-@JsonProperty("selfLink")
-private String selfLink;
-@JsonProperty("parentLink")
-private String parentLink;
-@JsonProperty("isRoot")
-private Boolean isRoot;
 
-@JsonProperty("kind")
-public String getKind() {
-return kind;
-}
+    @JsonProperty("kind")
+    private String kind;
+    @JsonProperty("id")
+    private String id;
+    @JsonProperty("selfLink")
+    private String selfLink;
+    @JsonProperty("parentLink")
+    private String parentLink;
+    @JsonProperty("isRoot")
+    private Boolean isRoot;
 
-@JsonProperty("kind")
-public void setKind(String kind) {
-this.kind = kind;
-}
+    @JsonProperty("kind")
+    public String getKind() {
+        return kind;
+    }
 
-@JsonProperty("id")
-public String getId() {
-return id;
-}
+    @JsonProperty("kind")
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
 
-@JsonProperty("id")
-public void setId(String id) {
-this.id = id;
-}
+    @JsonProperty("id")
+    public String getId() {
+        return id;
+    }
 
-@JsonProperty("selfLink")
-public String getSelfLink() {
-return selfLink;
-}
+    @JsonProperty("id")
+    public void setId(String id) {
+        this.id = id;
+    }
 
-@JsonProperty("selfLink")
-public void setSelfLink(String selfLink) {
-this.selfLink = selfLink;
-}
+    @JsonProperty("selfLink")
+    public String getSelfLink() {
+        return selfLink;
+    }
 
-@JsonProperty("parentLink")
-public String getParentLink() {
-return parentLink;
-}
+    @JsonProperty("selfLink")
+    public void setSelfLink(String selfLink) {
+        this.selfLink = selfLink;
+    }
 
-@JsonProperty("parentLink")
-public void setParentLink(String parentLink) {
-this.parentLink = parentLink;
-}
+    @JsonProperty("parentLink")
+    public String getParentLink() {
+        return parentLink;
+    }
 
-@JsonProperty("isRoot")
-public Boolean getIsRoot() {
-return isRoot;
-}
+    @JsonProperty("parentLink")
+    public void setParentLink(String parentLink) {
+        this.parentLink = parentLink;
+    }
 
-@JsonProperty("isRoot")
-public void setIsRoot(Boolean isRoot) {
-this.isRoot = isRoot;
-}
+    @JsonProperty("isRoot")
+    public Boolean getIsRoot() {
+        return isRoot;
+    }
+
+    @JsonProperty("isRoot")
+    public void setIsRoot(Boolean isRoot) {
+        this.isRoot = isRoot;
+    }
 
 }

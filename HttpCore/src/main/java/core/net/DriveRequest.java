@@ -3,20 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package core.net;
 
-import core.pojos.DriveItem;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.http.client.fluent.Request;
-import org.apache.http.entity.ContentType;
 import org.scribe.model.Token;
+
 /**
  *
  * @author Royal
@@ -29,6 +23,7 @@ public class DriveRequest {
 
     private final String MAX_RESULTS = "maxResults";
     private final String RESULTS_LIMIT_VALUE = "1000";
+    private final String Q = "q";
 
     // access token
     private final Token token;
@@ -39,27 +34,30 @@ public class DriveRequest {
 
     /**
      * Retrieves file and folder metadata
+     *
      * @param path The relative path to the file or folder
      * @return JSON String
      * @throws URISyntaxException Invalid URI
      * @throws IOException Bad request
      */
-    public String list(String ID) throws URISyntaxException, IOException {     
-        URI uri;
-        uri = Param.create()
+    public String list(String path) throws URISyntaxException, IOException {
+
+        if (path == null || path.trim().length() == 0) {
+            path = "root";
+        }
+        String query = String.format("'me'+in+owners+and+'%s'+in+parents", path);
+
+        URI uri = Param.create()
+                .setToken(token)
                 .setUrl(ROOT_META)
-                .setParam(MAX_RESULTS, RESULTS_LIMIT_VALUE)  
+                .setParam(MAX_RESULTS, RESULTS_LIMIT_VALUE)
+                .setParam(Q, query)
                 .buildURI();
-        String struri = uri.toString();
-        struri = setquery(struri, ID);
-        struri = settoken(struri, token.getToken().toString());
-        System.out.println(struri);
-        return Request.Get(struri)
+        return Request.Get(uri)
                 .execute()
                 .returnContent().asString();
     }
-    
-    
+
 //    /**
 //     * Downloads a file
 //     * @param path The relative path to the file you want to retrieve
@@ -96,22 +94,18 @@ public class DriveRequest {
 //                .execute()
 //                .returnContent().asString();
 //    }
-
     /**
      * Combine root and path
-     * @param root Root path of Dropbox. Using constant value in class DropboxRequest
+     *
+     * @param root Root path of Dropbox. Using constant value in class
+     * DropboxRequest
      * @param path Path to file or folder
-     * @return 
+     * @return
      */
-        //q='me'+in+owners+and+'root'+in+parents
+    //q='me'+in+owners+and+'root'+in+parents
     private static String setquery(String root, String ID) {
-            ID = "&q='me'+in+owners+and+'"+ID+"'+in+parents";
+        ID = "&q='me'+in+owners+and+'" + ID + "'+in+parents";
         return root + ID;
     }
-    
-        private static String settoken(String root, String token) {
-            token = "&access_token="+token;
-        return root + token;
-    }
-    
+
 }
