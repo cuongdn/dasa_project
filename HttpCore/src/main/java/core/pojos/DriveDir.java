@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package core.pojos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 /**
  *
  * @author Royal
@@ -26,30 +27,29 @@ import org.codehaus.jackson.annotate.JsonProperty;
 //"items"
 //})
 public class DriveDir {
-
-    @JsonProperty("kind")
-    private String kind;
+@JsonProperty("kind")
+private String kind;
 //@JsonProperty("etag")
 //private String etag;
-    @JsonProperty("selfLink")
-    private String selfLink;
-    @JsonProperty("nextPageToken")
-    private String nextPageToken;
-    @JsonProperty("nextLink")
-    private String nextLink;
-    @JsonProperty("items")
-    public ArrayList<DriveItem> items = new ArrayList<DriveItem>();
+@JsonProperty("selfLink")
+private String selfLink;
+@JsonProperty("nextPageToken")
+private String nextPageToken;
+@JsonProperty("nextLink")
+private String nextLink;
+@JsonProperty("items")
+public List<DriveItem> items = new ArrayList<DriveItem>();
 //private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("kind")
-    public String getKind() {
-        return kind;
-    }
+@JsonProperty("kind")
+public String getKind() {
+return kind;
+}
 
-    @JsonProperty("kind")
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
+@JsonProperty("kind")
+public void setKind(String kind) {
+this.kind = kind;
+}
 
 //@JsonProperty("etag")
 //public String getEtag() {
@@ -60,45 +60,46 @@ public class DriveDir {
 //public void setEtag(String etag) {
 //this.etag = etag;
 //}
-    @JsonProperty("selfLink")
-    public String getSelfLink() {
-        return selfLink;
-    }
 
-    @JsonProperty("selfLink")
-    public void setSelfLink(String selfLink) {
-        this.selfLink = selfLink;
-    }
+@JsonProperty("selfLink")
+public String getSelfLink() {
+return selfLink;
+}
 
-    @JsonProperty("nextPageToken")
-    public String getNextPageToken() {
-        return nextPageToken;
-    }
+@JsonProperty("selfLink")
+public void setSelfLink(String selfLink) {
+this.selfLink = selfLink;
+}
 
-    @JsonProperty("nextPageToken")
-    public void setNextPageToken(String nextPageToken) {
-        this.nextPageToken = nextPageToken;
-    }
+@JsonProperty("nextPageToken")
+public String getNextPageToken() {
+return nextPageToken;
+}
 
-    @JsonProperty("nextLink")
-    public String getNextLink() {
-        return nextLink;
-    }
+@JsonProperty("nextPageToken")
+public void setNextPageToken(String nextPageToken) {
+this.nextPageToken = nextPageToken;
+}
 
-    @JsonProperty("nextLink")
-    public void setNextLink(String nextLink) {
-        this.nextLink = nextLink;
-    }
+@JsonProperty("nextLink")
+public String getNextLink() {
+return nextLink;
+}
 
-    @JsonProperty("items")
-    public List<DriveItem> getItems() {
-        return items;
-    }
+@JsonProperty("nextLink")
+public void setNextLink(String nextLink) {
+this.nextLink = nextLink;
+}
 
-    @JsonProperty("items")
-    public void setItems(ArrayList<DriveItem> DriveItems) {
-        this.items = DriveItems;
-    }
+@JsonProperty("items")
+public List<DriveItem> getItems() {
+return items;
+}
+
+@JsonProperty("items")
+public void setItems(List<DriveItem> DriveItems) {
+this.items = DriveItems;
+}
 
 //@JsonAnyGetter
 //public Map<String, Object> getAdditionalProperties() {
@@ -109,4 +110,5 @@ public class DriveDir {
 //public void setAdditionalProperties(String name, Object value) {
 //this.additionalProperties.put(name, value);
 //}
+
 }
