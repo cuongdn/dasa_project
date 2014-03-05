@@ -42,8 +42,8 @@ public class DriveApiExample {
     
 //Token[ya29.1.AADtN_W77eq-NEdZMRufxcCMpDP-4f0HGQs53ZvuCF0fOLc8z3qJD661bNVaTvtTVimJzoEP , ]
     private static final String NETWORK_NAME = "Drive";
-//    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/drive/v2/files";
-    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/drive/v2/files?maxResults=50&q='me'+in+owners+and+'root'+in+parents&key=ya29.1.AADtN_W77eq-NEdZMRufxcCMpDP-4f0HGQs53ZvuCF0fOLc8z3qJD661bNVaTvtTVimJzoEP";
+    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/drive/v2/files";
+//    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/drive/v2/files?maxResults=50&q='me'+in+owners+and+'root'+in+parents&key=ya29.1.AADtN_W77eq-NEdZMRufxcCMpDP-4f0HGQs53ZvuCF0fOLc8z3qJD661bNVaTvtTVimJzoEP";
 //    https://www.googleapis.com/drive/v2/files?maxResults=50&q='me'+in+owners+and+'root'+in+parents&key={YOUR_API_KEY}
     private static final Token EMPTY_TOKEN = null;
 
@@ -63,7 +63,11 @@ public class DriveApiExample {
         
         Token accessToken = getToken(service);
         
-        getFiles(service, accessToken);
+//        getFiles(service, accessToken);
+        
+        DriveRequest dr = new DriveRequest(accessToken);
+        String ls = dr.list("0B_vA8Zj1ofHCRnp4c3NieGVfMEU");
+        System.out.println(ls);
 
     }
     
@@ -116,9 +120,9 @@ public class DriveApiExample {
         System.out.println();
         }
         
-//        System.out.println("\n test thu muc goc! :");                
-//        List<DriveItem> rl = Rootlist(ToDriveList);
-//        showRootListItems(rl);
+        System.out.println("\n test thu muc goc! :");                
+        List<DriveItem> rl = Rootlist(ToDriveList);
+        showRootListItems(rl);
         
         System.out.println("\n Test thu muc go :");
         List<DriveItem> fl = Childlist(ToDriveList, ToDriveList.get(2));
@@ -175,15 +179,15 @@ public class DriveApiExample {
     //1/ Create Root Folder
     // create the root folder that have the file inside have no parent or parent = null
     //the children (folders) have foldertype(mime) and the parent is root  
-//    public static List<DriveItem> Rootlist(List<DriveItem> items){
-//        List<DriveItem> temp = new ArrayList<>();
-//        for(int i = 0; i < items.size() ; i++){
-//            if( (items.get(i).getDriveParents().size() != 1) || (items.get(i).getMimeType().equals("application/vnd.google-apps.folder") && items.get(i).getDriveParents().get(0).getIsRoot()) && items.get(i).getUserPermission().getRole().equals("owner")  ){
-//            temp.add(items.get(i));
-//            } 
-//        }
-//        return temp;
-//    }
+    public static List<DriveItem> Rootlist(List<DriveItem> items){
+        List<DriveItem> temp = new ArrayList<>();
+        for(int i = 0; i < items.size() ; i++){
+            if( (items.get(i).getDriveParents().size() != 1) || (items.get(i).getMimeType().equals("application/vnd.google-apps.folder") && items.get(i).getDriveParents().get(0).getIsRoot()) && items.get(i).getUserPermission().getRole().equals("owner")  ){
+            temp.add(items.get(i));
+            } 
+        }
+        return temp;
+    }
     
     //all must be list item
     //2/ Create Folder

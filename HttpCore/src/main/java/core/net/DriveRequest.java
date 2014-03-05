@@ -44,13 +44,17 @@ public class DriveRequest {
      * @throws URISyntaxException Invalid URI
      * @throws IOException Bad request
      */
-    public String list(String path) throws URISyntaxException, IOException {
-        URI uri = Param.create()
-                .setUrl(combine(ROOT_META, path))
-                .setParam(MAX_RESULTS, RESULTS_LIMIT_VALUE)
-                .setToken(token)
+    public String list(String ID) throws URISyntaxException, IOException {     
+        URI uri;
+        uri = Param.create()
+                .setUrl(ROOT_META)
+                .setParam(MAX_RESULTS, RESULTS_LIMIT_VALUE)  
                 .buildURI();
-        return Request.Get(uri)
+        String struri = uri.toString();
+        struri = setquery(struri, ID);
+        struri = settoken(struri, token.getToken().toString());
+        System.out.println(struri);
+        return Request.Get(struri)
                 .execute()
                 .returnContent().asString();
     }
@@ -99,10 +103,15 @@ public class DriveRequest {
      * @param path Path to file or folder
      * @return 
      */
-    private String combine(String root, String path) {
-        if (!path.startsWith("/")) {
-            path = "/" + path;
-        }
-        return root + path;
+        //q='me'+in+owners+and+'root'+in+parents
+    private static String setquery(String root, String ID) {
+            ID = "&q='me'+in+owners+and+'"+ID+"'+in+parents";
+        return root + ID;
     }
+    
+        private static String settoken(String root, String token) {
+            token = "&access_token="+token;
+        return root + token;
+    }
+    
 }
